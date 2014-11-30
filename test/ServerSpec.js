@@ -56,7 +56,7 @@ describe('', function () {
       request(app)
         .post('/links')
         .send({
-        'url': 'definitely not a valid url'
+          'url': 'definitely not a valid url'
         })
         .expect(404)
         .end(done);

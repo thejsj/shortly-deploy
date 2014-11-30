@@ -25,7 +25,8 @@ module.exports = function (grunt) {
     mochaTest: {
       test: {
         options: {
-          reporter: 'spec'
+          reporter: 'spec',
+          quiet: true
         },
         src: ['test/**/*.js']
       }
@@ -47,14 +48,14 @@ module.exports = function (grunt) {
 
     jshint: {
       files: [
-        // Add filespec list here
+        'public/client/*.js'
       ],
       options: {
-        force: 'true',
+        //  force: 'true',
         jshintrc: '.jshintrc',
         ignores: [
           'public/lib/**/*.js',
-          'public/dist/**/*.js'
+          'public/dist/*.js'
         ]
       }
     },
@@ -119,7 +120,7 @@ module.exports = function (grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', ['concat', 'uglify', 'cssmin']);
+  grunt.registerTask('build', ['jshint', 'mochaTest', 'concat', 'uglify', 'cssmin']);
 
   grunt.registerTask('upload', function (n) {
     if (grunt.option('prod')) {

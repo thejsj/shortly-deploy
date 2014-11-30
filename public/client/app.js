@@ -1,5 +1,5 @@
 $(function () {
-  new Shortly();
+  window.app = new Shortly();
 });
 
 window.Templates = {};
