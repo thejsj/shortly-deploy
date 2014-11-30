@@ -56,7 +56,7 @@ describe('', function () {
       request(app)
         .post('/links')
         .send({
-          'url': 'definitely not a valid url'
+        'url': 'definitely not a valid url'
         })
         .expect(404)
         .end(done);
@@ -106,7 +106,6 @@ describe('', function () {
             Links.query('where', 'url', '=', 'http://www.roflzoo.com/')
               .fetch()
               .then(function (coll) {
-                console.log(coll.at(0).get('title'));
                 expect(coll.at(0).get('title')).to.equal('Funny animal pictures, funny animals, funniest dogs');
                 done();
               });
@@ -132,7 +131,6 @@ describe('', function () {
 
       it('Returns the same shortened code if attempted to add the same URL twice', function (done) {
         var firstCode = __link.get('code');
-        console.log('firstCode: ', firstCode);
         request(app)
           .post('/links')
           .send({
@@ -208,15 +206,14 @@ describe('', function () {
           'password': 'Svnh'
         })
         .expect(302)
-        .expect(function () {
-          User.findOne({
-              'username': 'Svnh'
-            })
-            .exec(function (err, user) {
-              expect(user.username).to.equal('Svnh');
+        .end(function () {
+          Users.query('where', 'username', '=', 'Svnh')
+            .fetch()
+            .then(function (coll) {
+              expect(coll.at(0).get('username')).to.equal('Svnh');
+              done();
             });
-        })
-        .end(done);
+        });
     });
 
     it('Successful signup logs in a new user', function (done) {
@@ -242,11 +239,13 @@ describe('', function () {
 
     beforeEach(function (done) {
       new User({
-        'username': 'Phillip',
-        'password': 'Phillip'
-      }).save(function () {
-        done();
-      });
+          'username': 'Phillip',
+          'password': 'Phillip'
+        })
+        .save()
+        .then(function () {
+          done();
+        });
     });
 
     it('Logs in existing users', function (done) {
