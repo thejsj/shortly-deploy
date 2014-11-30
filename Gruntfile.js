@@ -2,7 +2,25 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    concat: {},
+    concat: {
+      dist: {
+        src: [
+          './public/lib/jquery.js',
+          './public/lib/underscore.js',
+          './public/lib/handlebars.js',
+          './public/lib/backbone.js',
+          './public/lib/underscore.js',
+          './public/client/app.js',
+          './public/client/link.js',
+          './public/client/links.js',
+          './public/client/linkView.js',
+          './public/client/linksView.js',
+          './public/client/createLinkView.js',
+          './public/client/router.js'
+        ],
+        dest: 'public/dist/production.js',
+      },
+    },
 
     mochaTest: {
       test: {
@@ -19,7 +37,13 @@ module.exports = function (grunt) {
       }
     },
 
-    uglify: {},
+    uglify: {
+      production: {
+        files: {
+          'public/dist/production.js': ['public/dist/production.js']
+        }
+      }
+    },
 
     jshint: {
       files: [
@@ -35,7 +59,13 @@ module.exports = function (grunt) {
       }
     },
 
-    cssmin: {},
+    cssmin: {
+      production: {
+        files: {
+          'public/dist/style.min.css': ['public/style.css']
+        }
+      }
+    },
 
     watch: {
       scripts: {
@@ -89,19 +119,18 @@ module.exports = function (grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', []);
+  grunt.registerTask('build', ['concat', 'uglify', 'cssmin']);
 
   grunt.registerTask('upload', function (n) {
     if (grunt.option('prod')) {
       // add your production server task here
+      grunt.task.run(['build']);
     } else {
       grunt.task.run(['server-dev']);
     }
   });
 
   grunt.registerTask('deploy', [
-    // add your deploy tasks here
+    'build'
   ]);
-
-
 };
