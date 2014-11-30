@@ -1,9 +1,8 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    concat: {
-    },
+    concat: {},
 
     mochaTest: {
       test: {
@@ -20,8 +19,7 @@ module.exports = function(grunt) {
       }
     },
 
-    uglify: {
-    },
+    uglify: {},
 
     jshint: {
       files: [
@@ -37,8 +35,7 @@ module.exports = function(grunt) {
       }
     },
 
-    cssmin: {
-    },
+    cssmin: {},
 
     watch: {
       scripts: {
@@ -58,8 +55,7 @@ module.exports = function(grunt) {
     },
 
     shell: {
-      prodServer: {
-      }
+      prodServer: {}
     },
   });
 
@@ -75,14 +71,14 @@ module.exports = function(grunt) {
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
     var nodemon = grunt.util.spawn({
-         cmd: 'grunt',
-         grunt: true,
-         args: 'nodemon'
+      cmd: 'grunt',
+      grunt: true,
+      args: 'nodemon'
     });
     nodemon.stdout.pipe(process.stdout);
     nodemon.stderr.pipe(process.stderr);
 
-    grunt.task.run([ 'watch' ]);
+    grunt.task.run(['watch']);
   });
 
   ////////////////////////////////////////////////////
@@ -93,14 +89,13 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', [
-  ]);
+  grunt.registerTask('build', []);
 
-  grunt.registerTask('upload', function(n) {
-    if(grunt.option('prod')) {
+  grunt.registerTask('upload', function (n) {
+    if (grunt.option('prod')) {
       // add your production server task here
     } else {
-      grunt.task.run([ 'server-dev' ]);
+      grunt.task.run(['server-dev']);
     }
   });
 
